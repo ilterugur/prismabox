@@ -6,7 +6,7 @@ import {
 import { generateTypeboxOptions } from "../annotations/options";
 import { getConfig } from "../config";
 import type { ProcessedModel } from "../model";
-import { processedEnums } from "./enum";
+import { processedEnumsMap } from "./enum";
 import {
   isPrimitivePrismaFieldType,
   type PrimitivePrismaFieldType,
@@ -66,11 +66,9 @@ export function stringifyWhere(data: DMMF.Model) {
             }),
           });
         }
-      } else if (processedEnums.find((e) => e.name === field.type)) {
+      } else if (processedEnumsMap.has(field.type)) {
         // biome-ignore lint/style/noNonNullAssertion: we checked this manually
-        stringifiedType = processedEnums.find(
-          (e) => e.name === field.type,
-        )!.stringRepresentation;
+        stringifiedType = processedEnumsMap.get(field.type)!.stringRepresentation;
       } else {
         return undefined;
       }
@@ -166,11 +164,9 @@ export function stringifyWhereUnique(data: DMMF.Model) {
               }),
             });
           }
-        } else if (processedEnums.find((e) => e.name === f.type)) {
+        } else if (processedEnumsMap.has(f.type)) {
           // biome-ignore lint/style/noNonNullAssertion: we checked this manually
-          stringifiedType = processedEnums.find(
-            (e) => e.name === f.type,
-          )!.stringRepresentation;
+          stringifiedType = processedEnumsMap.get(f.type)!.stringRepresentation;
         } else {
           throw new Error("Invalid type for unique composite generation");
         }
@@ -210,11 +206,9 @@ export function stringifyWhereUnique(data: DMMF.Model) {
             }),
           });
         }
-      } else if (processedEnums.find((e) => e.name === field.type)) {
+      } else if (processedEnumsMap.has(field.type)) {
         // biome-ignore lint/style/noNonNullAssertion: we checked this manually
-        stringifiedType = processedEnums.find(
-          (e) => e.name === field.type,
-        )!.stringRepresentation;
+        stringifiedType = processedEnumsMap.get(field.type)!.stringRepresentation;
       } else {
         return undefined;
       }
@@ -251,11 +245,9 @@ export function stringifyWhereUnique(data: DMMF.Model) {
             }),
           });
         }
-      } else if (processedEnums.find((e) => e.name === field.type)) {
+      } else if (processedEnumsMap.has(field.type)) {
         // biome-ignore lint/style/noNonNullAssertion: we checked this manually
-        stringifiedType = processedEnums.find(
-          (e) => e.name === field.type,
-        )!.stringRepresentation;
+        stringifiedType = processedEnumsMap.get(field.type)!.stringRepresentation;
       } else {
         return undefined;
       }
