@@ -1,5 +1,14 @@
-# prismabox
-Generate versatile [typebox](https://github.com/sinclairzx81/typebox) schemes from your [prisma](https://github.com/prisma) schema.
+# @ilterugur/prismabox
+
+Generate versatile [typebox](https://github.com/sinclairzx81/typebox) schemes from your [prisma](https://github.com/prisma) schema. **Prisma 7 ready.**
+
+> A maintained consolidation of [prismabox](https://github.com/m1212e/prismabox) (upstream development [on hold](https://github.com/m1212e/prismabox/issues/59)) and three of its forks. Credits — all MIT:
+> - **[m1212e/prismabox](https://github.com/m1212e/prismabox)** — the original generator (Ade Yahya Prasetyo, m1212e)
+> - **[yeliex/prismabox](https://github.com/yeliex/prismabox)** — Prisma 7 + TypeBox 1.x port (fixes the `t.graph` crash on Prisma 7)
+> - **[VersantOnlineSolutions/prismabox](https://github.com/VersantOnlineSolutionsPvtLtd/prismabox)** — O(1) generator lookups, graceful `@id` skip, DEBUG logging
+> - **[hyoretsu/prismabox](https://github.com/hyoretsu/prismabox)** — optional TS type aliases, optional composite relations
+>
+> This fork keeps Prettier formatting (not the Biome swap) and ships the fork features as **opt-in** config flags, so default output is unchanged.
 
 > Currently does not support [mongoDB composite types](https://www.prisma.io/docs/orm/prisma-schema/data-model/models#defining-composite-types)
 
@@ -7,10 +16,18 @@ Generate versatile [typebox](https://github.com/sinclairzx81/typebox) schemes fr
 
 Install it in your project,
 ```bash
-npm i -D prismabox
-pnpm i -D prismabox
-bun add -D prismabox
+npm i -D @ilterugur/prismabox
+pnpm i -D @ilterugur/prismabox
+bun add -D @ilterugur/prismabox
 ```
+
+> The generator binary is still called `prismabox`, so your existing `provider = "prismabox"` config works as-is.
+
+## What this fork adds over upstream prismabox
+
+- **Prisma 7 support** (`@prisma/generator-helper` 7.x) + TypeBox 1.x, with automatic legacy 0.34-compatible output when `typeboxImportDependencyName` is not `"typebox"` (e.g. `"elysia"` or `"@sinclair/typebox"`).
+- **Performance**: Map-based O(1) lookups (vs O(n²) scans), sequential writes to avoid OOM on very large schemas, a `disableFormatting` option, and `DEBUG=prismabox` timing/progress logging.
+- **Opt-in features**: `generateTsTypes` (emit `export type Foo = Static<typeof Foo>`), `unwrapSchemaImportName`, and `optionalRelations` (relation props optional in the composite model). All default **off** to keep generated output unchanged.
 
  then add
 ```prisma

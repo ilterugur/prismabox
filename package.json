@@ -1,28 +1,37 @@
 {
-  "name": "@yeliex/prismabox",
-  "version": "3.0.0",
+  "name": "@ilterugur/prismabox",
+  "version": "1.0.0",
   "license": "MIT",
-  "description": "Typebox generator for prisma schema",
+  "description": "TypeBox schema generator for Prisma — Prisma 7 ready. A maintained consolidation of prismabox plus the yeliex (Prisma 7 + TypeBox 1.x), VersantOnlineSolutions (performance) and hyoretsu (features) forks.",
   "author": {
-    "name": "Ade Yahya Prasetyo, m1212e"
+    "name": "Uğur İLTER"
   },
+  "contributors": [
+    "Ade Yahya Prasetyo (original prismabox)",
+    "m1212e (original prismabox)",
+    "yeliex (Prisma 7 + TypeBox 1.x port)",
+    "saicharankandukuri / VersantOnlineSolutions (performance)",
+    "Aran Leite / hyoretsu (TS types, optional relations)"
+  ],
   "keywords": [
     "prisma2",
     "prisma",
+    "prisma7",
     "prisma-generator",
     "prisma-schema",
     "code-generation",
     "typebox",
     "typebox-generator",
+    "elysia",
     "prismabox"
   ],
-  "homepage": "https://github.com/yeliex/prismabox",
+  "homepage": "https://github.com/ilterugur/prismabox",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yeliex/prismabox.git"
+    "url": "git+https://github.com/ilterugur/prismabox.git"
   },
   "bugs": {
-    "url": "https://github.com/yeliex/prismabox/issues"
+    "url": "https://github.com/ilterugur/prismabox/issues"
   },
   "publishConfig": {
     "access": "public"
