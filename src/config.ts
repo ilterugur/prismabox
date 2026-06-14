@@ -17,6 +17,23 @@ const configSchema = Type.Object(
      */
     typeboxImportDependencyName: Type.String({ default: "typebox" }),
     /**
+     * Whether to also emit a TypeScript type alias for each generated schema,
+     * e.g. `export type Foo = Static<typeof Foo>`. Opt-in (default off) so the
+     * default output is unchanged. (hyoretsu fork feature.)
+     */
+    generateTsTypes: Type.Boolean({ default: false }),
+    /**
+     * The symbol used to unwrap a schema into a TypeScript type, imported as a
+     * type from `typeboxImportDependencyName`. Only used when generateTsTypes is on.
+     */
+    unwrapSchemaImportName: Type.String({ default: "Static" }),
+    /**
+     * When true, relation properties are made optional (wrapped in Partial) in
+     * the full composite model. Opt-in (default off) to preserve existing output.
+     * (hyoretsu fork feature.)
+     */
+    optionalRelations: Type.Boolean({ default: false }),
+    /**
      * Whether to allow additional properties in the generated schemes
      */
     additionalProperties: Type.Boolean({ default: false }),

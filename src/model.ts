@@ -34,20 +34,37 @@ export type ProcessedModel = {
 function convertModelToStandalone(
   input: Pick<ProcessedModel, "name" | "stringRepresentation">,
 ) {
-  const { exportedTypePrefix } = getConfig();
-  return `export const ${exportedTypePrefix}${input.name} = ${input.stringRepresentation}\n`;
+  const { exportedTypePrefix, generateTsTypes, unwrapSchemaImportName } =
+    getConfig();
+  const generatedName = `${exportedTypePrefix}${input.name}`;
+  let exportStr = `export const ${generatedName} = ${input.stringRepresentation}\n`;
+  if (generateTsTypes) {
+    exportStr += `export type ${generatedName} = ${unwrapSchemaImportName}<typeof ${generatedName}>\n`;
+  }
+  return exportStr;
 }
 
 function typepoxImportStatement() {
-  const { typeboxImportDependencyName, typeboxImportVariableName } =
-    getConfig();
+  const {
+    typeboxImportDependencyName,
+    typeboxImportVariableName,
+    generateTsTypes,
+    unwrapSchemaImportName,
+  } = getConfig();
   if (typeboxImportDependencyName === "typebox") {
-    return `import ${typeboxImportVariableName} from "${
+    // typebox 1.x exposes the builder as a default export
+    const typeImport = generateTsTypes
+      ? `, { type ${unwrapSchemaImportName} }`
+      : "";
+    return `import ${typeboxImportVariableName}${typeImport} from "${
       typeboxImportDependencyName
     }"\n`;
   }
 
-  return `import { ${typeboxImportVariableName} } from "${
+  const imports = generateTsTypes
+    ? `${typeboxImportVariableName}, type ${unwrapSchemaImportName}`
+    : typeboxImportVariableName;
+  return `import { ${imports} } from "${
     typeboxImportDependencyName
   }"\n`;
 }
@@ -102,7 +119,10 @@ export function mapAllModelsForWrite() {
     const hasRelations = relationsSet.has(key);
     let composite: string;
     if (hasPlain && hasRelations) {
-      composite = makeComposite([`${key}Plain`, `${key}Relations`]);
+      composite = makeComposite(
+        [`${key}Plain`, `${key}Relations`],
+        [false, getConfig().optionalRelations],
+      );
     } else if (hasPlain) {
       composite = `${key}Plain`;
     } else if (hasRelations) {
